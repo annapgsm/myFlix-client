@@ -14,5 +14,12 @@
   "bugs": {
     "url": "https://github.com/annapgsm/myFlix-client/issues"
   },
-  "homepage": "https://github.com/annapgsm/myFlix-client#readme"
+  "homepage": "https://github.com/annapgsm/myFlix-client#readme",
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.0"
+  }
 }

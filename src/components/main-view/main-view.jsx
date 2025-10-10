@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
-export const MainView = () => {
+export default MainView = () => {
   const [movies, setMovies] = useState([
     { id: 1, title: "Psycho", image: "https://upload.wikimedia.org/wikipedia/commons/7/76/Psycho_%281960%29_theatrical_poster_%28retouched%29.jpg", director:"Alfred Hitchcock" },
     { id: 2, title: "Nightcrawler", image: "https://upload.wikimedia.org/wikipedia/en/d/d4/Nightcrawlerfilm.jpg", director:"Dan Gilroy" },

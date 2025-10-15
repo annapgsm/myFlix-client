@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
-  const [movies, setMovies] = useState([
-    { id: 1, title: "Psycho", image: "https://upload.wikimedia.org/wikipedia/commons/7/76/Psycho_%281960%29_theatrical_poster_%28retouched%29.jpg", director:"Alfred Hitchcock" },
-    { id: 2, title: "Nightcrawler", image: "https://upload.wikimedia.org/wikipedia/en/d/d4/Nightcrawlerfilm.jpg", director:"Dan Gilroy" },
-    { id: 3, title: "Rosemaries Baby", image:"https://m.media-amazon.com/images/I/A1Vmrrc2S+L._SL1500_.jpg", director:"Roman Polanski" },
-  ]);
+  const [movies, setMovies] = useState([]);
   
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  //fetch data from API and store it in movies
+  useEffect( () => {
+    fetch("https://movie-api-o14j.onrender.com")
+      .then((response) => response.json())
+      .then((data) => {
+        setMovies(data);
+      });
+    },[]);
 
   if (selectedMovie) {
     return (
@@ -23,12 +28,12 @@ export const MainView = () => {
 
   return (
     <div>
-      {movies.map((movie) => (
+      {movies.map((movie) => ( //loops through movie array
         <MovieCard
-          key={movie.id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => { // passed a function as a prop called onMovieClick
-            setSelectedMovie(newSelectedMovie);
+          key={movie.id}       //gives each MovieCard a unique key
+          movie={movie}        //passes the actual movie object as a prop
+          onMovieClick={(newSelectedMovie) => { //passes a function as another prop 
+            setSelectedMovie(newSelectedMovie); //updates selectedMovie state when clicked
           }}
         />
       ))}

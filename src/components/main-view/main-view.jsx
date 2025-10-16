@@ -9,7 +9,7 @@ export const MainView = () => {
 
   //fetch data from API and store it in movies
   useEffect( () => {
-    fetch("https://movie-api-o14j.onrender.com")
+    fetch("https://movie-api-o14j.onrender.com/movies")
       .then((response) => response.json())
       .then((data) => {
         setMovies(data);

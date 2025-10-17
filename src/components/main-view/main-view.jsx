@@ -30,7 +30,7 @@ export const MainView = () => {
     <div>
       {movies.map((movie) => ( //loops through movie array
         <MovieCard
-          key={movie.id}       //gives each MovieCard a unique key
+          key={movie._id}       //gives each MovieCard a unique key
           movie={movie}        //passes the actual movie object as a prop
           onMovieClick={(newSelectedMovie) => { //passes a function as another prop 
             setSelectedMovie(newSelectedMovie); //updates selectedMovie state when clicked

@@ -12,8 +12,10 @@ export const MainView = () => {
     fetch("https://movie-api-o14j.onrender.com/movies")
       .then((response) => response.json())
       .then((data) => {
+        console.log("Fetched movies:", data);
         setMovies(data);
-      });
+      })
+      .catch((err) => console.error("Error fetching movies:", err));
     },[]);
 
   if (selectedMovie) {

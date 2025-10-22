@@ -8,7 +8,6 @@ export const LoginView = ({ onLoggedIn }) => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
-    // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
 
     const data = {
@@ -16,7 +15,7 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password
     };
 
-    fetch("https://movie-api-o14j.onrender.com/login", {
+    fetch("https://movie-api-o14j.onrender.com/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -48,7 +47,7 @@ return (
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          minLength="3" 
+          minLength="5" 
         />
       </Form.Group>
 
@@ -61,6 +60,7 @@ return (
           required
         />
       </Form.Group>
+      <hr />
       <Button variant="primary" type="submit">
         Submit
       </Button>

@@ -19,7 +19,7 @@ export const SignupView = () => {
       Birthday: birthday
     };
 
-    fetch("SIGNUP_URL", {
+    fetch("https://movie-api-o14j.onrender.com/users", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -77,7 +77,7 @@ export const SignupView = () => {
           required
         />
       </Form.Group>
-
+      <hr />
       <Button variant="primary" type="submit">
         Submit
       </Button>

@@ -3,9 +3,11 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { ProfileView } from "../profile-view/profile-view";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -31,8 +33,40 @@ export const MainView = () => {
       .catch((err) => console.error("Error fetching movies:", err));
   },[token]);
 
+  const handleAddFavorite = (movieId) => {
+    if (!user) return;
+
+    fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to add favorite");
+        setUser((prev) => ({
+          ...prev,
+          FavoriteMovies: [...prev.FavoriteMovies, movieId],
+        }));
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleUpdateFavorites = (newFavorites) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      FavoriteMovies: newFavorites,
+    }));
+  };
+
+
+  const handleLoggedOut = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+  };
+
   return(
     <BrowserRouter>
+      <NavigationBar user={user} onLoggedOut={handleLoggedOut} />
       <Row  className="justify-content-md-center">
         <Routes>
           <Route
@@ -69,6 +103,22 @@ export const MainView = () => {
             }
           />
           <Route
+            path="/profile"
+            element={
+              !user ? (
+                <Navigate to="/login" replace />
+              ) : (
+                <ProfileView
+                  user={user}
+                  token={token}
+                  movies={movies}
+                  onLoggedOut={handleLoggedOut}
+                  onUpdateFavorites={handleUpdateFavorites} 
+                />
+              )
+            }
+          />
+          <Route
             path="/movies/:movieId"
             element={
               <>
@@ -96,19 +146,13 @@ export const MainView = () => {
                   <>
                     {movies.map((movie) => (
                       <Col className="mb-4" key={movie._id} md={3}>
-                        <MovieCard movie={movie} />
+                        <MovieCard 
+                          movie={movie} 
+                          onAddFavorite={handleAddFavorite}
+                          favoriteMovies={user ? user.FavoriteMovies : []}
+                        />
                       </Col>
                     ))}
-                    <hr />
-                    <button
-                      onClick={() => {
-                        setUser(null);
-                        setToken(null);
-                        localStorage.clear();
-                      }}
-                    >
-                      Logout
-                    </button>
                   </>
                 )}
               </>

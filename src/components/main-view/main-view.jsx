@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
-import {SignupView} from "../signup-view/signup-view";
+import { SignupView } from "../signup-view/signup-view";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-  const [user, setUser] = useState(storedUser? storedUser : null);
+
   const [token, setToken] = useState(storedToken? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [user, setUser] = useState(storedUser? storedUser : null);
 
-  //fetch data from API and store it in movies
+
   useEffect( () => {
     if (!token){
       return;
@@ -26,67 +29,157 @@ export const MainView = () => {
         setMovies(data);
       })
       .catch((err) => console.error("Error fetching movies:", err));
-    },[token]);
+  },[token]);
 
-  if (!user) {
-    return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />
-        or
-        <SignupView />
-      </>
-    );
-  }
-
-// if no movie is selected, render nothing (early return)
-if (!selectedMovie) return null;
-
-return (
-  <>
-    <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-    <hr />
-    <h2>Similar Movies</h2>
-
-    {movies
-      // filter out only movies with the same genre but different id
-      .filter(
-        ({ Genre, _id }) =>
-          Genre?.Name === selectedMovie.Genre?.Name && _id !== selectedMovie._id
-      )
-      // map through the filtered list and render MovieCards
-      .map((movie) => (
-        <MovieCard
-          key={movie._id}             // unique key for React
-          movie={movie}               // pass the movie object as a prop
-          onMovieClick={setSelectedMovie} // directly set selected movie when clicked
-        />
-      ))}
-  </>
-);
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
-  return (
-    <>
-      <div>
-        {movies.map((movie) => ( //loops through movie array
-          <MovieCard
-            key={movie._id}       //gives each MovieCard a unique key
-            movie={movie}        //passes the actual movie object as a prop
-            onMovieClick={(newSelectedMovie) => { //passes a function as another prop 
-              setSelectedMovie(newSelectedMovie); //updates selectedMovie state when clicked
-            }}
+  return(
+    <BrowserRouter>
+      <Row  className="justify-content-md-center">
+        <Routes>
+          <Route
+            path="/signup"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                    <SignupView />
+                  </Col>
+                )}
+              </>
+            }
           />
-        ))}
-      </div>
-      <button onClick={() => { setUser(null); setToken(null); localStorage.clear();}}>Logout</button>
-    </>
+          <Route
+            path="/login"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                    <LoginView
+                      onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                      }}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/movies/:movieId"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                  <Col md={8}>
+                    <MovieView movies={movies} />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                  <>
+                    {movies.map((movie) => (
+                      <Col className="mb-4" key={movie._id} md={3}>
+                        <MovieCard movie={movie} />
+                      </Col>
+                    ))}
+                    <hr />
+                    <button
+                      onClick={() => {
+                        setUser(null);
+                        setToken(null);
+                        localStorage.clear();
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
+              </>
+            }
+          />
+        </Routes>
+      </Row>
+    </BrowserRouter>
   );
 };
+
+
+/*{!user ? (
+            <Col md={5}>
+              <LoginView
+                onLoggedIn={(user, token) => {
+                  setUser(user);
+                  setToken(token);
+                }}
+              />
+              or
+              <SignupView />
+            </Col>
+          ) : selectedMovie? (
+            <>
+              <Col md={8} style={{ border: "1px solid black" }}>
+                <MovieView
+                  movie={selectedMovie}
+                  onBackClick={() => setSelectedMovie(null)}
+                />
+              </Col>
+
+              <hr />
+              <h2>Similar Movies</h2>
+
+              <Row>
+                {movies
+                  // filter out only movies with the same genre but different id
+                  .filter(
+                    ({ Genre, _id }) =>
+                      Genre?.Name === selectedMovie.Genre?.Name && _id !== selectedMovie._id
+                  )
+                  // map through the filtered list and render MovieCards
+                  .map((movie) => (
+                    <Col key={movie._id} md={3}>
+                      <MovieCard
+                        movie={movie}               // pass the movie object as a prop
+                        onMovieClick={setSelectedMovie} // directly set selected movie when clicked
+                      />
+                    </Col>
+                  ))}
+              </Row>
+            </>
+          ) : movies.length === 0 ? (
+            <div>The list is empty</div>
+          ) : (
+            <>
+              {movies.map((movie) => (
+                <Col className="mb-5" key={movie._id} md={3}>
+                  <MovieCard 
+                    movie={movie}
+                    onMovieClick={(newSelecetedMovie)=>{
+                      setSelectedMovie(newSelecetedMovie);
+                    }}
+                  />
+                </Col>
+              ))}
+              <hr />
+              <button onClick={() => { setUser(null); setToken(null); localStorage.clear();}}>Logout</button>
+            </>
+          )}
+            */
+
+          

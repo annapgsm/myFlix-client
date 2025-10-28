@@ -25,6 +25,14 @@ export const MovieCard = ({ movie, onMovieClick, onAddFavorite,favoriteMovies = 
                     {isFavorite ? "Added to Favorites" : "Add to Favorites"}
                 </Button>
                 )}
+        <Card className="h-100" onClick={() => onMovieClick(movie)}>
+            <Card.Img variant="top" src={movie.ImagePath} />
+            <Card.Body>
+                <Card.Title>{movie.Title}</Card.Title>
+                <Card.Text>{movie.Description}</Card.Text>
+                <Button onClick={() => onMovieClick(movie)} variant="link">
+                    Open
+                </Button>
             </Card.Body>
         </Card>
     );

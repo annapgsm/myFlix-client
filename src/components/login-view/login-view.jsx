@@ -1,11 +1,15 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/reducers/user";
+import { Link, Navigate } from "react-router-dom";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
 
-export const LoginView = ({ onLoggedIn }) => {
+export const LoginView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,9 +30,10 @@ export const LoginView = ({ onLoggedIn }) => {
       .then((data) => {
         console.log("Login response: ", data);
         if (data.user) {
+          const userWithToken = { ...data.user, token: data.token };
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.token);
-          onLoggedIn(data.user, data.token);
+          dispatch(setUser(userWithToken));
         } else {
           alert("No such user");
         }

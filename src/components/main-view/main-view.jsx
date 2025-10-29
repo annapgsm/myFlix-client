@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
-import { MovieCard } from "../movie-card/movie-card";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
+
+import { useSelector, useDispatch } from "react-redux";
+import { setMovies } from "../../redux/reducers/movies"; // movies slice
+import { setUser } from "../../redux/reducers/user";     // user slice
 
 export const MainView = () => {
+  /*
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
 
@@ -18,7 +24,17 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(storedUser? storedUser : null);
+  */
 
+  const dispatch = useDispatch();
+
+  // Redux state
+  const movies = useSelector((state) => state.movies.list);
+  const user = useSelector((state) => state.user); 
+  const token = user?.token || null;
+
+  // Local state for UI-specific things
+  const [selectedMovie, setSelectedMovie] = useState(null); 
 
   useEffect( () => {
     if (!token){
@@ -30,10 +46,10 @@ export const MainView = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched movies:", data);
-        setMovies(data);
+        dispatch(setMovies(data));
       })
       .catch((err) => console.error("Error fetching movies:", err));
-  },[token]);
+  },[token, dispatch]);
 
   const handleAddFavorite = (movieId) => {
     if (!user) return;
@@ -44,31 +60,28 @@ export const MainView = () => {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to add favorite");
-        setUser((prev) => ({
-          ...prev,
-          FavoriteMovies: [...prev.FavoriteMovies, movieId],
-        }));
+        dispatch(
+          setUser({
+            ...user,
+            FavoriteMovies: [...user.FavoriteMovies, movieId],
+          })
+        );
       })
       .catch((err) => console.error(err));
   };
 
   const handleUpdateFavorites = (newFavorites) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      FavoriteMovies: newFavorites,
-    }));
+    dispatch(setUser({ ...user, FavoriteMovies: newFavorites }));
   };
 
-
   const handleLoggedOut = () => {
-    setUser(null);
-    setToken(null);
+    dispatch(setUser(null));
     localStorage.clear();
   };
 
   return(
     <BrowserRouter>
-      <NavigationBar user={user} onLoggedOut={handleLoggedOut} />
+      <NavigationBar user={user} onLoggedOut={handleLoggedOut}/>
       <Row  className="justify-content-md-center">
         <Routes>
           <Route
@@ -95,8 +108,8 @@ export const MainView = () => {
                   <Col md={5}>
                     <LoginView
                       onLoggedIn={(user, token) => {
-                        setUser(user);
-                        setToken(token);
+                        const userWithToken = { ...user, token }; 
+                        dispatch(setUser(userWithToken));  
                       }}
                     />
                   </Col>
@@ -130,7 +143,10 @@ export const MainView = () => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <Col md={8}>
-                    <MovieView movies={movies} />
+                    <MovieView 
+                      movies={movies}
+                      onBackClick={() => setSelectedMovie(null)} 
+                    />
                   </Col>
                 )}
               </>
@@ -145,17 +161,10 @@ export const MainView = () => {
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
-                  <>
-                    {movies.map((movie) => (
-                      <Col className="mb-4" key={movie._id} md={3}>
-                        <MovieCard 
-                          movie={movie} 
-                          onAddFavorite={handleAddFavorite}
-                          favoriteMovies={user ? user.FavoriteMovies : []}
-                        />
-                      </Col>
-                    ))}
-                  </>
+                  <MoviesList
+                    onAddFavorite={handleAddFavorite}
+                    favoriteMovies={user ? user.FavoriteMovies : []}
+                  />
                 )}
               </>
             }

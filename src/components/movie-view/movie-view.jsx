@@ -8,8 +8,10 @@ import "./movie-view.scss";
 import { MovieCard } from "../movie-card/movie-card";
 
 
-export const MovieView = ({ movies }) => {
+export const MovieView = () => {
   const { movieId } = useParams();
+
+  const movies = useSelector((state) => state.movies.list);
 
   const movie = movies.find((m) => m._id === movieId);
 

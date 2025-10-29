@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MovieCard = ({ movie, onMovieClick, onAddFavorite,favoriteMovies = []}) => {
+export const MovieCard = ({ movie, onMovieClick, onAddFavorite, favoriteMovies = []}) => {
     const isFavorite = favoriteMovies.includes(movie._id); // check if it's already favorite
     return (
         <Card>
@@ -12,7 +12,7 @@ export const MovieCard = ({ movie, onMovieClick, onAddFavorite,favoriteMovies = 
                 <Card.Title>{movie.Title}</Card.Title>
                 <Card.Text>Directed by: {movie.Director?.Name}</Card.Text>
                 <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-                <Button variant="link">Open</Button>
+                    <Button variant="link">Open</Button>
                 </Link>
 
                 {onAddFavorite && (
@@ -25,14 +25,6 @@ export const MovieCard = ({ movie, onMovieClick, onAddFavorite,favoriteMovies = 
                     {isFavorite ? "Added to Favorites" : "Add to Favorites"}
                 </Button>
                 )}
-        <Card className="h-100" onClick={() => onMovieClick(movie)}>
-            <Card.Img variant="top" src={movie.ImagePath} />
-            <Card.Body>
-                <Card.Title>{movie.Title}</Card.Title>
-                <Card.Text>{movie.Description}</Card.Text>
-                <Button onClick={() => onMovieClick(movie)} variant="link">
-                    Open
-                </Button>
             </Card.Body>
         </Card>
     );
@@ -52,4 +44,3 @@ MovieCard.propTypes = {
     }).isRequired,
     onAddFavorite: PropTypes.func,
 };
-

@@ -5,7 +5,7 @@ import { setUser } from "../../redux/reducers/user";
 import { Link, Navigate } from "react-router-dom";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
 
-export const LoginView = () => {
+export const LoginView = ({onLoggedIn}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -29,11 +29,12 @@ export const LoginView = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Login response: ", data);
+
         if (data.user) {
-          const userWithToken = { ...data.user, token: data.token };
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.token);
-          dispatch(setUser(userWithToken));
+          console.log("Calling onLoggedIn with:", data.user, data.token); //to debug
+          onLoggedIn(data.user, data.token);
         } else {
           alert("No such user");
         }

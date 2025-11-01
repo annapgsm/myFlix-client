@@ -8,6 +8,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { MoviesList } from "../movies-list/movies-list";
 
 
 import { useSelector, useDispatch } from "react-redux";
@@ -79,6 +80,8 @@ export const MainView = () => {
     localStorage.clear();
   };
 
+  console.log("User from Redux:", user);
+
   return(
     <BrowserRouter>
       <NavigationBar user={user} onLoggedOut={handleLoggedOut}/>
@@ -102,13 +105,13 @@ export const MainView = () => {
             path="/login"
             element={
               <>
-                {user ? (
-                  <Navigate to="/" />
+                { user ? (
+                  <Navigate to="/" replace />
                 ) : (
                   <Col md={5}>
                     <LoginView
                       onLoggedIn={(user, token) => {
-                        const userWithToken = { ...user, token }; 
+                        console.log("Data received from LoginView:", user, token); // to debug
                         dispatch(setUser(userWithToken));  
                       }}
                     />

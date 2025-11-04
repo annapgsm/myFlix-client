@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import "./movie-card.scss";
 
 export const MovieCard = ({ movie, onMovieClick, onAddFavorite, favoriteMovies = [] }) => {
-  const isFavorite = userData?.FavoriteMovies?.includes(movie._id);
+ 
+  const isFavorite = favoriteMovies?.includes(movie._id);
 
   return (
     <Card className="movie-card">

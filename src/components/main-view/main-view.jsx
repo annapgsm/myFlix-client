@@ -59,15 +59,15 @@ export const MainView = () => {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to add favorite");
-        dispatch(
-          setUser((prevUser) => ({
-            ...prevUser,
-            FavoriteMovies: [...prevUser.FavoriteMovies, movieId],
-          }))
-        );
+        const updatedUser = {
+          ...user,
+          FavoriteMovies: [...user.FavoriteMovies, movieId],
+        };
+
+        dispatch(setUser(updatedUser));
       })
-      .catch((err) => console.error(err));
-  };
+        .catch((err) => console.error(err));
+      };
 
   const handleUpdateFavorites = (newFavorites) => {
     // Ensure deep clone — converts to JSON-safe plain object

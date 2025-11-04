@@ -1,5 +1,8 @@
-$color: steelblue;
-
-.my-flix {
-  color: $color;
+body {
+  background-color: #121212; /* same dark color as navbar */
+  margin: 0; /* remove default margin */
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  color: white; /* optional: make text white on dark bg */
 }

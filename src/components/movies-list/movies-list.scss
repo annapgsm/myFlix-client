@@ -1,0 +1,7 @@
+.sticky-search-wrapper {
+  position: sticky;
+  top: 50px;  // or whatever your navbar height is
+  z-index: 1030; // higher than content, similar to bootstrap navbar z-index
+  background-color: #121212; // same as your background to cover content beneath when scrolling
+  padding-bottom: 10px; // optional, to give breathing space
+}

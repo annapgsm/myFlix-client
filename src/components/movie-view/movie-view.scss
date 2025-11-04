@@ -1,0 +1,35 @@
+
+/* Meta label (Genre, Director, etc.) */
+.meta-label {
+  margin: 0;
+  font-weight: 600;            /* visually stronger without <strong> */
+  color: #5c6165;             /* Bootstrap body color (dark) */
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+/* Primary meta values (Name, Release Year, Rating) */
+.meta-value {
+  margin: 0;
+  font-size: 0.95rem;         /* slightly smaller than title/desc */
+  color: #5c6165;             /* readable, not too faint */
+}
+
+/* Nested/secondary values (Genre Description, Director Bio) */
+.meta-nested {
+  margin: 0.25rem 0 0;        /* small gap above nested text */
+  font-size: 0.9rem;          /* visibly smaller than meta-value */
+  color: #939aa0;             /* slightly lighter but high contrast */
+  white-space: pre-wrap;
+}
+
+/* Tighter spacing for dd elements inside our dl */
+dl dd {
+  margin-left: 0;             /* keep everything left-aligned */
+}
+
+/* Small responsive tweak: keep nested text readable on small screens */
+@media (max-width: 575.98px) {
+  .meta-nested { font-size: 0.92rem; }
+}
+

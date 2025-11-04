@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { Row, Col, Form, Button, Container } from "react-bootstrap";
+import "./profile-view.scss";
 
 export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorites  }) => {
     const [userData, setUserData] = useState(user);
@@ -78,40 +79,43 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(() => {
-            setUserData((prev) => {
+            setUserData((prev) => { 
                 const updated = {
-                ...prev,
-                FavoriteMovies: prev.FavoriteMovies.filter((id) => id !== movieId),
+                    ...prev,
+                    FavoriteMovies: prev.FavoriteMovies.filter((id) => id !== movieId),
                 };
-                onUpdateFavorites(updatedFavorites);
+
+                setTimeout(() => {
+                    onUpdateFavorites(updated.FavoriteMovies);
+                }, 0);
+
                 return updated;
             });
         })
         .catch((error) => console.error(error));
     };
 
-    // // Add favorite movie
     const handleAddFavorite = (movieId) => {
-        fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
-            method: "POST",
-            headers: { Authorization: `Bearer ${token}` },
+    if (!user) return;
+
+    fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to add favorite");
+      dispatch(
+        setUser({
+          ...user,
+          FavoriteMovies: [...user.FavoriteMovies, movieId],
         })
-            .then((response) => {
-            if (!response.ok) throw new Error("Failed to add favorite");
-            setUserData((prev) => {
-                const updated = { 
-                ...prev, 
-                FavoriteMovies: [...prev.FavoriteMovies, movieId] 
-                };
-                onUpdateFavorites(updated.FavoriteMovies); // <-- notify MainView
-                return updated;
-            });
-        })
-        .catch((error) => console.error(error));
+      );
+    })
+    .catch((err) => console.error(err));
     };
 
     return (
-        <Container>
+        <Container style={{ paddingTop: '70px' }}>
         <h2>My Profile</h2>
         <hr/>
         <Row className="mb-4">

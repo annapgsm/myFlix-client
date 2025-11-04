@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Container, Row, Col } from 'react-bootstrap';
 
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -10,6 +9,7 @@ import { ProfileView } from "../profile-view/profile-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { MoviesList } from "../movies-list/movies-list";
 
+import "./main-view.scss";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setMovies } from "../../redux/reducers/movies"; // movies slice
@@ -21,7 +21,6 @@ export const MainView = () => {
   const storedToken = localStorage.getItem("token");
 
   const [token, setToken] = useState(storedToken? storedToken : null);
-
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(storedUser? storedUser : null);
@@ -30,9 +29,9 @@ export const MainView = () => {
   const dispatch = useDispatch();
 
   // Redux state
-  const movies = useSelector((state) => state.movies.list);
-  const user = useSelector((state) => state.user); 
-  const token = user?.token || null;
+  const movies = useSelector((state) => state.movies.movies.list || []);
+  const user = useSelector((state) => state.user.user); 
+  const token = user ? user.token : "";
 
   // Local state for UI-specific things
   const [selectedMovie, setSelectedMovie] = useState(null); 
@@ -53,7 +52,6 @@ export const MainView = () => {
   },[token, dispatch]);
 
   const handleAddFavorite = (movieId) => {
-    if (!user) return;
 
     fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
       method: "POST",
@@ -62,17 +60,23 @@ export const MainView = () => {
       .then((response) => {
         if (!response.ok) throw new Error("Failed to add favorite");
         dispatch(
-          setUser({
-            ...user,
-            FavoriteMovies: [...user.FavoriteMovies, movieId],
-          })
+          setUser((prevUser) => ({
+            ...prevUser,
+            FavoriteMovies: [...prevUser.FavoriteMovies, movieId],
+          }))
         );
       })
       .catch((err) => console.error(err));
   };
 
   const handleUpdateFavorites = (newFavorites) => {
-    dispatch(setUser({ ...user, FavoriteMovies: newFavorites }));
+    // Ensure deep clone — converts to JSON-safe plain object
+    const safeFavorites = JSON.parse(JSON.stringify(newFavorites));
+
+    dispatch(setUser({ 
+      ...user, 
+      FavoriteMovies: safeFavorites 
+    }));
   };
 
   const handleLoggedOut = () => {
@@ -80,7 +84,14 @@ export const MainView = () => {
     localStorage.clear();
   };
 
+  const onUserUpdate = (updatedUser) => {
+    debugger
+    dispatch(setUser(updatedUser));
+  };
+
   console.log("User from Redux:", user);
+  console.log("Token:", token);
+  console.log("Movies from Redux state:", movies);
 
   return(
     <BrowserRouter>
@@ -110,10 +121,7 @@ export const MainView = () => {
                 ) : (
                   <Col md={5}>
                     <LoginView
-                      onLoggedIn={(user, token) => {
-                        console.log("Data received from LoginView:", user, token); // to debug
-                        dispatch(setUser(userWithToken));  
-                      }}
+                      onLoggedIn={onUserUpdate}
                     />
                   </Col>
                 )}
@@ -164,10 +172,14 @@ export const MainView = () => {
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
-                  <MoviesList
-                    onAddFavorite={handleAddFavorite}
-                    favoriteMovies={user ? user.FavoriteMovies : []}
-                  />
+                  <div className="MoviesPage">
+                    <Container>
+                      <MoviesList
+                        onAddFavorite={handleAddFavorite}
+                        favoriteMovies={user ? user.FavoriteMovies : []}
+                      />
+                    </Container>
+                  </div>
                 )}
               </>
             }

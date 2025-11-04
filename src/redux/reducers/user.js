@@ -2,8 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
     name: "user",
-    initialState: null,
-    reducers: {
+    initialState: {
+        user: JSON.parse(localStorage.getItem("userInfo")) || null
+    }
+    , reducers: {
         setUser: (state, action) => {
             state.user = action.payload;
         },

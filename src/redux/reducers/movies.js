@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 const moviesSlice = createSlice({
     name: "movies",
-    initialState: [],
+    initialState: {movies: {list:[], filter: ""}},
     reducers: {
         setMovies: (state, action) => {
-            state.movies = action.payload
+            state.movies.list = action.payload
         },
         setFilter: (state, action) => {
-            state.filter = action.payload;
+            state.movies.filter = action.payload;
         }
     }
 });

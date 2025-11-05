@@ -1,4 +1,18 @@
-node_modules
-.cache
-.parcel-cache
+# Node modules folder
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Build folders (if any)
 dist/
+build/
+parcel/
+parcel-cache/
+.cache/
+
+# Environment variables
+.env
+*.mdb

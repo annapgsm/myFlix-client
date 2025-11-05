@@ -1,24 +1,40 @@
 import { useEffect, useState } from "react";
-import { MovieCard } from "../movie-card/movie-card";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Container, Row, Col } from 'react-bootstrap';
+
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { MoviesList } from "../movies-list/movies-list";
+
+import "./main-view.scss";
+
+import { useSelector, useDispatch } from "react-redux";
+import { setMovies } from "../../redux/reducers/movies"; // movies slice
+import { setUser } from "../../redux/reducers/user";     // user slice
 
 export const MainView = () => {
+  /*
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
 
   const [token, setToken] = useState(storedToken? storedToken : null);
-
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(storedUser? storedUser : null);
+  */
 
+  const dispatch = useDispatch();
+
+  // Redux state
+  const movies = useSelector((state) => state.movies.movies.list || []);
+  const user = useSelector((state) => state.user.user); 
+  const token = user ? user.token : "";
+
+  // Local state for UI-specific things
+  const [selectedMovie, setSelectedMovie] = useState(null); 
 
   useEffect( () => {
     if (!token){
@@ -30,13 +46,12 @@ export const MainView = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched movies:", data);
-        setMovies(data);
+        dispatch(setMovies(data));
       })
       .catch((err) => console.error("Error fetching movies:", err));
-  },[token]);
+  },[token, dispatch]);
 
   const handleAddFavorite = (movieId) => {
-    if (!user) return;
 
     fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
       method: "POST",
@@ -44,31 +59,43 @@ export const MainView = () => {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to add favorite");
-        setUser((prev) => ({
-          ...prev,
-          FavoriteMovies: [...prev.FavoriteMovies, movieId],
-        }));
+        const updatedUser = {
+          ...user,
+          FavoriteMovies: [...user.FavoriteMovies, movieId],
+        };
+
+        dispatch(setUser(updatedUser));
       })
-      .catch((err) => console.error(err));
-  };
+        .catch((err) => console.error(err));
+      };
 
   const handleUpdateFavorites = (newFavorites) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      FavoriteMovies: newFavorites,
+    // Ensure deep clone — converts to JSON-safe plain object
+    const safeFavorites = JSON.parse(JSON.stringify(newFavorites));
+
+    dispatch(setUser({ 
+      ...user, 
+      FavoriteMovies: safeFavorites 
     }));
   };
 
-
   const handleLoggedOut = () => {
-    setUser(null);
-    setToken(null);
+    dispatch(setUser(null));
     localStorage.clear();
   };
 
+  const onUserUpdate = (updatedUser) => {
+    debugger
+    dispatch(setUser(updatedUser));
+  };
+
+  console.log("User from Redux:", user);
+  console.log("Token:", token);
+  console.log("Movies from Redux state:", movies);
+
   return(
     <BrowserRouter>
-      <NavigationBar user={user} onLoggedOut={handleLoggedOut} />
+      <NavigationBar user={user} onLoggedOut={handleLoggedOut}/>
       <Row  className="justify-content-md-center">
         <Routes>
           <Route
@@ -89,15 +116,12 @@ export const MainView = () => {
             path="/login"
             element={
               <>
-                {user ? (
-                  <Navigate to="/" />
+                { user ? (
+                  <Navigate to="/" replace />
                 ) : (
                   <Col md={5}>
                     <LoginView
-                      onLoggedIn={(user, token) => {
-                        setUser(user);
-                        setToken(token);
-                      }}
+                      onLoggedIn={onUserUpdate}
                     />
                   </Col>
                 )}
@@ -130,7 +154,10 @@ export const MainView = () => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <Col md={8}>
-                    <MovieView movies={movies} />
+                    <MovieView 
+                      movies={movies}
+                      onBackClick={() => setSelectedMovie(null)} 
+                    />
                   </Col>
                 )}
               </>
@@ -145,17 +172,14 @@ export const MainView = () => {
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
-                  <>
-                    {movies.map((movie) => (
-                      <Col className="mb-4" key={movie._id} md={3}>
-                        <MovieCard 
-                          movie={movie} 
-                          onAddFavorite={handleAddFavorite}
-                          favoriteMovies={user ? user.FavoriteMovies : []}
-                        />
-                      </Col>
-                    ))}
-                  </>
+                  <div className="MoviesPage">
+                    <Container>
+                      <MoviesList
+                        onAddFavorite={handleAddFavorite}
+                        favoriteMovies={user ? user.FavoriteMovies : []}
+                      />
+                    </Container>
+                  </div>
                 )}
               </>
             }

@@ -1,0 +1,9 @@
+.auth-card {
+  background-color: #1c1c1c !important;
+  color: #f0f0f0 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7) !important;
+
+  .card-body, .card-footer {
+    background-color: transparent !important;
+  } 
+}

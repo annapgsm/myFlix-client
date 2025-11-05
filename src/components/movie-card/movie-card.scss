@@ -1,0 +1,20 @@
+.card img {
+  height: 350px;           /* fixed height */
+  width: 100%;            /* full card width */
+  object-fit: cover;      /* crop and keep aspect ratio */
+  border-radius: 0.25rem; /* optional, same as your card */
+}
+
+.movie-card {
+  background-color: #3c3c3c !important;  /* or #3c3c3c */
+  color: white !important;            /* white text */
+  border: none !important;           /* optional: remove border for cleaner look */
+  border-radius: 0.25rem;  /* keep rounded corners */
+  transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.03); /* slight scale on hover */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+}
+

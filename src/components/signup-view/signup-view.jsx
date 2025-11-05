@@ -2,6 +2,7 @@ import React from "react";
 import{ useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
+import "./signup-view.scss";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -39,7 +40,7 @@ export const SignupView = () => {
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Row>
         <Col>
-          <Card className="p-4 shadow" style={{ maxWidth: "400px" }}>
+          <Card className="p-4 shadow auth-card" style={{ maxWidth: "400px" }}>
             <Card.Body>
               <Card.Title className="text-center mb-4">Sign Up</Card.Title>
               <Form onSubmit={handleSubmit}>
@@ -51,7 +52,7 @@ export const SignupView = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
-                    minLength={3}
+                    minLength={7}
                   />
                 </Form.Group>
 

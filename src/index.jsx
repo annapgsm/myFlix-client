@@ -1,15 +1,21 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { createRoot } from 'react-dom/client';
 import { MainView } from './components/main-view/main-view';
 import Container from "react-bootstrap/Container";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
 const MyFlixApplication = () => {
   return (
-    <Container>
-      <MainView />
-    </Container>
+    <Provider store={store}>
+      <Container>
+        <MainView />
+      </Container>
+    </Provider>
   );
 };
 

@@ -1,11 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/reducers/user";
+import { Link, Navigate } from "react-router-dom";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
+import "./login-view.scss";
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,10 +30,15 @@ export const LoginView = ({ onLoggedIn }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Login response: ", data);
+
         if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("token", data.token);
-          onLoggedIn(data.user, data.token);
+          const userData = {
+            ...data.user,
+            token: data.token
+          }
+          localStorage.setItem("userInfo", JSON.stringify(userData));
+          dispatch(setUser(userData));
+          onLoggedIn(userData);
         } else {
           alert("No such user");
         }
@@ -42,7 +52,7 @@ export const LoginView = ({ onLoggedIn }) => {
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Row>
         <Col>
-          <Card className="p-4 shadow" style={{ maxWidth: "400px" }}>
+          <Card className="p-4 shadow auth-card" style={{ maxWidth: "400px" }}>
             <Card.Body>
               <Card.Title className="text-center mb-4">Login</Card.Title>
               <Form onSubmit={handleSubmit}>

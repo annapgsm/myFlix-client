@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/annapgsm/myFlix-client#readme",
   "dependencies": {
+    "@parcel/watcher": "^2.5.1",
     "@reduxjs/toolkit": "^2.9.2",
     "bootstrap": "^5.3.8",
     "prop-types": "^15.8.1",

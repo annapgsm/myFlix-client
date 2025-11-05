@@ -28,7 +28,8 @@
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.16.0"
+    "@parcel/transformer-sass": "^2.16.0",
+    "parcel": "^2.16.0"
   },
   "browserslist": {
     "production": [

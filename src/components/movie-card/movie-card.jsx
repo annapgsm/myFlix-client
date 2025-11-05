@@ -15,28 +15,28 @@ export const MovieCard = ({ movie, onMovieClick, onAddFavorite, favoriteMovies =
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Genre?.Name}</Card.Text>
 
-        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-          <Button variant="outline-light" size="sm" className="open-btn">
-            Open
-          </Button>
-        </Link>
+        {/* Flex container for buttons */}
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+            <Button variant="outline-light" size="sm" className="open-btn">
+              Open
+            </Button>
+          </Link>
 
-        {onAddFavorite && (
-          <Button
-            variant={isFavorite ? "success" : "outline-primary"} // green if favorite, blue outline if not
-            size="sm"
-            className="mt-2"
-            onClick={() => onAddFavorite(movie._id)}
-          >
-            {isFavorite ? "Added to Favorites" : "Add to Favorites"}
-          </Button>
-        )}
+          {onAddFavorite && (
+            <Button
+              variant={isFavorite ? "success" : "outline-primary"}
+              size="sm"
+              onClick={() => onAddFavorite(movie._id)}
+            >
+              {isFavorite ? "Added to Favorites" : "Add to Favorites"}
+            </Button>
+          )}
+        </div>
       </Card.Body>
     </Card>
   );
 };
-
-
 
 MovieCard.propTypes = {
     movie: PropTypes.shape({

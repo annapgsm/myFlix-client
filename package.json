@@ -19,6 +19,7 @@
   "homepage": "https://github.com/annapgsm/myFlix-client#readme",
   "dependencies": {
     "@parcel/watcher": "^2.5.1",
+    "@parcel/rust-linux-x64-gnu": "^2.16.1",
     "@reduxjs/toolkit": "^2.9.2",
     "bootstrap": "^5.3.8",
     "prop-types": "^15.8.1",
@@ -32,9 +33,6 @@
   "devDependencies": {
     "@parcel/transformer-sass": "^2.16.0",
     "parcel": "^2.16.0"
-  },
-  "optionalDependencies": {
-    "@parcel/rust-linux-x64-gnu": "^2.16.1"
   },
   "browserslist": {
     "production": [

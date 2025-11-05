@@ -1,0 +1,25 @@
+.nav-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* push content to the right */
+  width: 100%;
+}
+
+/* On larger screens: row, right-aligned */
+@media (min-width: 768px) {
+  .nav-wrapper {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .nav-wrapper .nav-link + .nav-link {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-wrapper {
+    flex-direction: column;  /* vertical on mobile */
+    align-items: flex-end;   /* align to right vertically */
+  }
+}

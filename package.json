@@ -31,6 +31,9 @@
     "@parcel/transformer-sass": "^2.16.0",
     "parcel": "^2.16.0"
   },
+  "optionalDependencies": {
+    "@parcel/rust-linux-x64-gnu": "^2.16.1"
+  },
   "browserslist": {
     "production": [
       ">0.2%",

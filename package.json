@@ -31,7 +31,8 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.16.0",
-    "parcel": "^2.16.0"
+    "@swc/core": "^1.15.0",
+    "parcel": "^2.16.1"
   },
   "optionalDependencies": {
     "@parcel/rust-linux-x64-gnu": "^2.16.1"

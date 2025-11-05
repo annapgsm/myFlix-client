@@ -37,7 +37,7 @@ export const LoginView = ({ onLoggedIn }) => {
             token: data.token
           }
           localStorage.setItem("userInfo", JSON.stringify(userData));
-
+          dispatch(setUser(userData));
           onLoggedIn(userData);
         } else {
           alert("No such user");

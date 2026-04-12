@@ -28,7 +28,7 @@ export const NavigationBar = () => {
     <Navbar fixed="top" bg="dark" variant="dark" expand="md" expanded={expanded}>
       <Container fluid>
         <Navbar.Brand as={Link} to="/" onClick={handleNavClick} style={{ paddingLeft: '15px' }}>
-          DarkFrame
+          DarkFrame!
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle} />

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,6 +8,11 @@ import "./movie-view.scss";
 import { MovieCard } from "../movie-card/movie-card";
 
 export const MovieView = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [movieId]);
+
   const { movieId } = useParams();
 
   const movies = useSelector((state) => state.movies.movies.list) || [];
@@ -91,7 +97,7 @@ export const MovieView = () => {
 
           <Row className="g-3 similar-movies-grid">
             {similarMovies.map((sm) => (
-              <Col key={sm._id} sm={6} md={4} lg={3} xl={2}>
+              <Col key={sm._id} sm={6} md={4} lg={3}>
                 <MovieCard movie={sm} />
               </Col>
             ))}

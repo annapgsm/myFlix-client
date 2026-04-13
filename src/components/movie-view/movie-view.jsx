@@ -9,11 +9,11 @@ import { MovieCard } from "../movie-card/movie-card";
 
 export const MovieView = () => {
 
+  const { movieId } = useParams();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [movieId]);
-
-  const { movieId } = useParams();
 
   const movies = useSelector((state) => state.movies.movies.list) || [];
   const movie = movies.find((m) => m._id === movieId);

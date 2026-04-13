@@ -35,12 +35,16 @@
 .movie-card .card-title {
   margin-bottom: 0;
   color: white;
+  line-height: 1.2;
+  min-height: 2.4em;
 }
 
 .movie-genre {
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.65);
   font-size: 0.95rem;
+  line-height: 1.3;
+  min-height: 2.6em;
 }
 
 .movie-card-actions {

@@ -1,35 +1,166 @@
+.movie-view-page {
+  padding-top: 110px;
+  padding-bottom: 4rem;
+}
 
-/* Meta label (Genre, Director, etc.) */
+.back-link {
+  text-decoration: none;
+}
+
+.back-btn {
+  margin-bottom: 2rem;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  background-color: transparent !important;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  border-color: rgba(255, 255, 255, 0.32) !important;
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.movie-hero {
+  margin-bottom: 5rem;
+}
+
+.movie-content {
+  max-width: 560px;
+}
+
+.movie-title {
+  margin-bottom: 1rem;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: white;
+}
+
+.movie-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.movie-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
+}
+
+.movie-description {
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.info-section {
+  margin-bottom: 2rem;
+}
+
 .meta-label {
-  margin: 0;
-  font-weight: 600;            /* visually stronger without <strong> */
-  color: #5c6165;             /* Bootstrap body color (dark) */
-  font-size: 0.95rem;
-  line-height: 1.2;
+  margin-bottom: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
 }
 
-/* Primary meta values (Name, Release Year, Rating) */
 .meta-value {
-  margin: 0;
-  font-size: 0.95rem;         /* slightly smaller than title/desc */
-  color: #5c6165;             /* readable, not too faint */
+  margin-bottom: 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: white;
 }
 
-/* Nested/secondary values (Genre Description, Director Bio) */
 .meta-nested {
-  margin: 0.25rem 0 0;        /* small gap above nested text */
-  font-size: 0.9rem;          /* visibly smaller than meta-value */
-  color: #939aa0;             /* slightly lighter but high contrast */
-  white-space: pre-wrap;
+  margin: 0;
+  max-width: 52ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.68);
 }
 
-/* Tighter spacing for dd elements inside our dl */
-dl dd {
-  margin-left: 0;             /* keep everything left-aligned */
+.director-years {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.95rem;
 }
 
-/* Small responsive tweak: keep nested text readable on small screens */
+.movie-poster-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.movie-poster {
+  width: 100%;
+  max-width: 430px;
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  display: block;
+}
+
+.similar-movies-section {
+  padding-top: 1rem;
+}
+
+.similar-heading {
+  margin-bottom: 1.75rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+@media (max-width: 991px) {
+  .movie-hero {
+    margin-bottom: 4rem;
+  }
+
+  .movie-content {
+    max-width: 100%;
+  }
+
+  .movie-poster-wrap {
+    justify-content: flex-start;
+  }
+
+  .movie-poster {
+    max-width: 360px;
+  }
+}
+
 @media (max-width: 575.98px) {
-  .meta-nested { font-size: 0.92rem; }
-}
+  .movie-view-page {
+    padding-top: 100px;
+    padding-bottom: 3rem;
+  }
 
+  .movie-title {
+    font-size: 2.2rem;
+  }
+
+  .movie-description {
+    font-size: 1rem;
+  }
+
+  .meta-value {
+    font-size: 1.15rem;
+  }
+
+  .movie-poster {
+    max-width: 100%;
+  }
+}

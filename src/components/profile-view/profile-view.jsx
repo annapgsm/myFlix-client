@@ -99,6 +99,7 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
         .catch((error) => console.error(error));
     };
 
+    /* 
     const handleAddFavorite = (movieId) => {
     if (!user) return;
 
@@ -117,61 +118,72 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
     })
     .catch((err) => console.error(err));
     };
+    */
 
     return (
-        <Container style={{ paddingTop: '70px' }}>
-        <h2>My Profile</h2>
-        <hr/>
-        <Row className="mb-4">
-            <Col md={6}>
-            <h4>User Information</h4>
-            <Form onSubmit={handleUpdate}>
-                <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
-                <Form.Control value={username} onChange={(e) => setUsername(e.target.value)} />
-                </Form.Group>
+        <Container className="profile-page">
+            <h2 className="profile-title">My Profile</h2>
 
-                <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
-                </Form.Group>
+            <Row className="g-4 align-items-start">
+            
+            {/* LEFT: FORM */}
+            <Col lg={5}>
+                <div className="profile-panel">
+                <h4 className="section-title">User Information</h4>
 
-                <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} />
-                </Form.Group>
+                <Form onSubmit={handleUpdate}>
+                    <Form.Group className="mb-3">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                <Form.Label>Birthday</Form.Label>
-                <Form.Control type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
+                    </Form.Group>
 
-                <Button variant="primary" type="submit">Update Profile</Button>
-                <Button variant="danger" className="ms-2" onClick={handleDelete}>Delete Account</Button>
-            </Form>
+                    <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </Form.Group>
+
+                    <Form.Group className="mb-4">
+                    <Form.Label>Birthday</Form.Label>
+                    <Form.Control type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+                    </Form.Group>
+
+                    <div className="profile-actions">
+                    <Button type="submit">Update</Button>
+                    <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                    </div>
+                </Form>
+                </div>
             </Col>
-        </Row>
 
-        <h4>Favorite Movies</h4>
-        {favoriteMovies.length === 0 ? (
-            <p>No favorite movies yet.</p>
-        ) : (
-            <Row>
-            {favoriteMovies.map((movie) => (
-                <Col key={movie._id} md={3} className="mb-3">
-                <MovieCard movie={movie} />
-                <Button
-                    variant="outline-danger"
-                    size="sm"
-                    className="mt-2"
-                    onClick={() => handleRemoveFavorite(movie._id)}
-                >
-                    Remove from Favorites
-                </Button>
-                </Col>
-            ))}
+            {/* RIGHT: FAVORITES */}
+            <Col lg={7}>
+                <div className="profile-panel">
+                <h4 className="section-title">Favorite Movies</h4>
+
+                {favoriteMovies.length === 0 ? (
+                    <p className="empty-state">No favorite movies yet.</p>
+                ) : (
+                    <Row className="g-4">
+                    {favoriteMovies.map((movie) => (
+                        <Col key={movie._id} sm={6} xl={4}>
+                        <MovieCard
+                            movie={movie}
+                            onAddFavorite={handleRemoveFavorite}
+                            favoriteMovies={userData.FavoriteMovies}
+                        />
+                        </Col>
+                    ))}
+                    </Row>
+                )}
+                </div>
+            </Col>
+
             </Row>
-        )}
         </Container>
     );
 };

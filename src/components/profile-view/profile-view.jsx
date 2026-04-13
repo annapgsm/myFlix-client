@@ -15,8 +15,9 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
     }, [userData]);
 
     // Filter favorite movies
-    const favoriteMovies = movies.filter((m) => userData.FavoriteMovies.includes(m._id));
-
+    const favoriteMovies = movies.filter((m) =>
+        userData?.FavoriteMovies?.includes(m._id)
+    );
     // Update user info
     const handleUpdate = (e) => {
         e.preventDefault();
@@ -188,7 +189,7 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
                         <MovieCard
                             movie={movie}
                             onAddFavorite={handleRemoveFavorite}
-                            favoriteMovies={userData.FavoriteMovies}
+                            favoriteMovies={userData?.FavoriteMovies || []}
                         />
                         </Col>
                     ))}

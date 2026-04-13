@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { Row, Col, Form, Button, Container } from "react-bootstrap";
 import "./profile-view.scss";
@@ -125,8 +125,6 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
             <h2 className="profile-title">My Profile</h2>
 
             <Row className="g-4 align-items-start">
-            
-            {/* LEFT: FORM */}
             <Col lg={5}>
                 <div className="profile-panel">
                 <h4 className="section-title">User Information</h4>
@@ -134,33 +132,49 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
                 <Form onSubmit={handleUpdate}>
                     <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <Form.Control
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
+                    <Form.Control
+                        type="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Form.Control
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                     </Form.Group>
 
                     <Form.Group className="mb-4">
                     <Form.Label>Birthday</Form.Label>
-                    <Form.Control type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+                    <Form.Control
+                        type="date"
+                        value={birthday}
+                        onChange={(e) => setBirthday(e.target.value)}
+                    />
                     </Form.Group>
 
                     <div className="profile-actions">
-                    <Button type="submit">Update</Button>
-                    <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                    <Button variant="primary" type="submit">
+                        Update Profile
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                        Delete Account
+                    </Button>
                     </div>
                 </Form>
                 </div>
             </Col>
 
-            {/* RIGHT: FAVORITES */}
             <Col lg={7}>
                 <div className="profile-panel">
                 <h4 className="section-title">Favorite Movies</h4>
@@ -182,7 +196,6 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
                 )}
                 </div>
             </Col>
-
             </Row>
         </Container>
     );

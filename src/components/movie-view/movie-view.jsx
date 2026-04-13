@@ -26,7 +26,7 @@ export const MovieView = () => {
         </Button>
       </Link>
 
-      <Row className="movie-hero align-items-center g-5">
+      <Row className="movie-hero align-items-center g-4">
         <Col lg={6}>
           <div className="movie-content">
             <h1 className="movie-title">{movie.Title}</h1>
@@ -89,9 +89,9 @@ export const MovieView = () => {
         <section className="similar-movies-section">
           <h2 className="similar-heading">Similar Movies</h2>
 
-          <Row className="g-4">
+          <Row className="g-3 similar-movies-grid">
             {similarMovies.map((sm) => (
-              <Col key={sm._id} md={6} lg={4} xl={3}>
+              <Col key={sm._id} sm={6} md={4} lg={3} xl={2}>
                 <MovieCard movie={sm} />
               </Col>
             ))}

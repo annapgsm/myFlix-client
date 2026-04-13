@@ -5,7 +5,7 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MoviesFilter } from "../movies-filter/movies-filter";
 import "./movies-list.scss";
 
-export const MoviesList = ({ favoriteMovies, onAddFavorite, user }) => {
+export const MoviesList = ({ favoriteMovies, handleAddFavorite, user }) => {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies.movies.list) || [];
   const filter = (useSelector((state) => state.movies.movies.filter) || "").trim().toLowerCase();
@@ -46,8 +46,8 @@ export const MoviesList = ({ favoriteMovies, onAddFavorite, user }) => {
                     <Col className="mb-4 mt-2" key={movie._id} xs={12} sm={6}md={3}>
                         <MovieCard 
                         movie={movie}
-                        onAddFavorite={onAddFavorite}
-                        favoriteMovies={favoriteMovies} />
+                        onAddFavorite={handleAddFavorite}
+                        favoriteMovies={user?.FavoriteMovies || []} />
                     </Col>
                 ))
             )}

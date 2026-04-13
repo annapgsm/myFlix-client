@@ -52,31 +52,31 @@ export const MainView = () => {
   },[token, dispatch]);
 
   const handleAddFavorite = (movieId) => {
-
     fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to add favorite");
-        const updatedUser = {
-          ...user,
-          FavoriteMovies: [...user.FavoriteMovies, movieId],
-        };
-
+        return response.json();
+      })
+      .then((updatedUser) => {
+        localStorage.setItem("user", JSON.stringify(updatedUser));
         dispatch(setUser(updatedUser));
       })
-        .catch((err) => console.error(err));
-      };
+      .catch((err) => console.error(err));
+  };
 
   const handleUpdateFavorites = (newFavorites) => {
-    // Ensure deep clone — converts to JSON-safe plain object
     const safeFavorites = JSON.parse(JSON.stringify(newFavorites));
 
-    dispatch(setUser({ 
-      ...user, 
-      FavoriteMovies: safeFavorites 
-    }));
+    const updatedUser = {
+      ...user,
+      FavoriteMovies: safeFavorites,
+    };
+
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    dispatch(setUser(updatedUser));
   };
 
   const handleLoggedOut = () => {

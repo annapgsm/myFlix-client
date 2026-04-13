@@ -118,15 +118,22 @@
 }
 
 .similar-movies-grid .movie-card .card-img-top {
-  height: 220px;
+  height: 260px;
 }
 
 .similar-movies-grid .movie-card .card-title {
+  min-height: 2.4em;
+  line-height: 1.2;
   font-size: 1.05rem;
 }
 
 .similar-movies-grid .movie-card .movie-genre {
   font-size: 0.9rem;
+  min-height: 2.6em;
+}
+
+.similar-movies-grid .movie-card .card-body {
+  min-height: 145px;
 }
 
 .similar-heading {

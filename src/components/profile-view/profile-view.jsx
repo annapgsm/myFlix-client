@@ -8,7 +8,11 @@ export const ProfileView = ({ user, token, movies, onLoggedOut,  onUpdateFavorit
     const [username, setUsername] = useState(user.Username);
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState(user.Email);
-    const [birthday, setBirthday] = useState(user.Birthday);
+    const [birthday, setBirthday] = useState(user.Birthday ? user.Birthday.slice(0, 10) : "");
+
+    useEffect(() => {
+        setBirthday(userData.Birthday ? userData.Birthday.slice(0, 10) : "");
+    }, [userData]);
 
     // Filter favorite movies
     const favoriteMovies = movies.filter((m) => userData.FavoriteMovies.includes(m._id));

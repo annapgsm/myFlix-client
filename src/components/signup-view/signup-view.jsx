@@ -37,12 +37,13 @@ export const SignupView = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center min-vh-100">
-      <Row>
-        <Col>
-          <Card className="p-4 shadow auth-card" style={{ maxWidth: "400px" }}>
+    <Container className="auth-page">
+      <Row className="justify-content-center w-100">
+        <Col xs={12} md="auto">
+          <Card className="auth-card">
             <Card.Body>
               <Card.Title className="text-center mb-4">Sign Up</Card.Title>
+
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formUsername">
                   <Form.Label>Username</Form.Label>
@@ -93,6 +94,7 @@ export const SignupView = () => {
                 </Button>
               </Form>
             </Card.Body>
+
             <Card.Footer className="text-center">
               Already have an account?{" "}
               <Link to="/login" className="text-primary">

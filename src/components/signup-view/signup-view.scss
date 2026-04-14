@@ -1,9 +1,91 @@
+/* PAGE LAYOUT */
+.auth-page {
+  min-height: 100vh;
+  padding-top: 110px; /* space for fixed navbar */
+  padding-bottom: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* CARD */
 .auth-card {
+  width: 100%;
+  max-width: 420px;
+
   background-color: #1c1c1c !important;
   color: #f0f0f0 !important;
+
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.7) !important;
 
-  .card-body, .card-footer {
-    background-color: transparent !important;
-  } 
+  padding: 1rem;
+}
+
+/* CARD BODY */
+.auth-card .card-body {
+  padding: 1.5rem;
+  background-color: transparent !important;
+}
+
+/* TITLE */
+.auth-card .card-title {
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+/* FORM LABELS */
+.auth-card .form-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* INPUTS */
+.auth-card .form-control {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: white;
+  box-shadow: none;
+}
+
+.auth-card .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.auth-card .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: white;
+  box-shadow: none;
+}
+
+/* FOOTER */
+.auth-card .card-footer {
+  background-color: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* FOOTER LINK */
+.auth-card .card-footer a {
+  color: #5ea2ff;
+  text-decoration: none;
+}
+
+.auth-card .card-footer a:hover {
+  text-decoration: underline;
+}
+
+/* MOBILE */
+@media (max-width: 575.98px) {
+  .auth-page {
+    padding-top: 100px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .auth-card .card-body {
+    padding: 1.25rem;
+  }
 }

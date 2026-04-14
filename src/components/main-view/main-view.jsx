@@ -51,33 +51,40 @@ export const MainView = () => {
       .catch((err) => console.error("Error fetching movies:", err));
   },[token, dispatch]);
 
-  const handleAddFavorite = (movieId) => {
+ const handleAddFavorite = (movieId) => {
     fetch(`https://movie-api-o14j.onrender.com/users/${user.Username}/movies/${movieId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to add favorite");
-        return response.json();
-      })
-      .then((updatedUser) => {
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        dispatch(setUser(updatedUser));
-      })
-      .catch((err) => console.error(err));
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to add favorite");
+      return response.json();
+    })
+    .then((updatedUser) => {
+      const mergedUser = {
+        ...user,
+        ...updatedUser,
+        token: user.token,
+      };
+
+      localStorage.setItem("userInfo", JSON.stringify(mergedUser));
+      dispatch(setUser(mergedUser));
+    })
+    .catch((err) => console.error(err));
   };
 
-  const handleUpdateFavorites = (newFavorites) => {
-    const safeFavorites = JSON.parse(JSON.stringify(newFavorites));
+const handleUpdateFavorites = (newFavorites) => {
+  const safeFavorites = JSON.parse(JSON.stringify(newFavorites));
 
-    const updatedUser = {
-      ...user,
-      FavoriteMovies: safeFavorites,
-    };
-
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    dispatch(setUser(updatedUser));
+  const updatedUser = {
+    ...user,
+    FavoriteMovies: safeFavorites,
+    token: user.token,
   };
+
+  localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+  dispatch(setUser(updatedUser));
+};
 
   const handleLoggedOut = () => {
     dispatch(setUser(null));

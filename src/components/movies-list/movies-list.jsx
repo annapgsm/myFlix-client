@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import "./movies-list.scss";
 
-export const MoviesList = ({ favoriteMovies, onAddFavorite, user }) => {
+export const MoviesList = ({ favoriteMovies, onAddFavorite }) => {
   const movies = useSelector((state) => state.movies.movies.list) || [];
   const filter = (useSelector((state) => state.movies.movies.filter) || "").trim().toLowerCase();
   
@@ -19,7 +19,7 @@ export const MoviesList = ({ favoriteMovies, onAddFavorite, user }) => {
                         <MovieCard 
                         movie={movie}
                         onAddFavorite={onAddFavorite}
-                        favoriteMovies={favoriteMovies} />
+                        favoriteMovies={favoriteMovies || []} />
                     </Col>
                 ))
             )}

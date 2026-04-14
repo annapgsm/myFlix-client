@@ -1,19 +1,16 @@
 import { useState } from "react";
-import { Navbar, Container, Nav, Form, InputGroup } from "react-bootstrap";
-import { Link, useLocation} from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
-import { setUser } from "../../redux/reducers/user.js";
-import { setFilter } from "../../redux/reducers/movies.js"; 
-
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Form } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import { setUser } from "../../redux/reducers/user.js";
+import { setFilter } from "../../redux/reducers/movies.js";
 import "./navigation-bar.scss";
 
 export const NavigationBar = () => {
-  const user = useSelector((state) => state.user);
+
+  const user = useSelector((state) => state.user.user);
+  const filter = useSelector((state) => state.movies.movies.filter || "");
   const [expanded, setExpanded] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -24,10 +21,14 @@ export const NavigationBar = () => {
   const hideNavPaths = ["/login", "/signup"];
   const showNavLinks = user && !hideNavPaths.includes(location.pathname);
 
+  const handleSearchChange = (e) => {
+    dispatch(setFilter(e.target.value));
+  };
+
   return (
     <Navbar fixed="top" bg="dark" variant="dark" expand="md" expanded={expanded}>
       <Container>
-        <Navbar.Brand as={Link} to="/" onClick={handleNavClick} style={{ paddingLeft: '15px' }}>
+        <Navbar.Brand as={Link} to="/" onClick={handleNavClick}>
           DarkFrame
         </Navbar.Brand>
 
@@ -35,19 +36,36 @@ export const NavigationBar = () => {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <div className="nav-wrapper">
-            <Nav className="ms-auto">
             {showNavLinks ? (
-              <>
-                <Nav.Link as={Link} to="/" onClick={handleNavClick}>Home</Nav.Link>
-                <Nav.Link as={Link} to="/profile" onClick={handleNavClick}>Profile</Nav.Link>
-                <Nav.Link onClick={() => {
-                  dispatch(setUser(null))
-                  setExpanded(false);
-                }}
-                >Logout</Nav.Link>
-              </>
+              <Nav className="ms-auto nav-content">
+                <Nav.Link as={Link} to="/" onClick={handleNavClick}>
+                  Home
+                </Nav.Link>
+
+                <Form className="nav-search">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search movies..."
+                    value={filter}
+                    onChange={handleSearchChange}
+                  />
+                </Form>
+
+                <Nav.Link as={Link} to="/profile" onClick={handleNavClick}>
+                  Profile
+                </Nav.Link>
+
+                <Nav.Link
+                  onClick={() => {
+                    dispatch(setUser(null));
+                    localStorage.clear();
+                    setExpanded(false);
+                  }}
+                >
+                  Logout
+                </Nav.Link>
+              </Nav>
             ) : null}
-            </Nav>
           </div>
         </Navbar.Collapse>
       </Container>

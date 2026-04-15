@@ -55,8 +55,8 @@ https://darkframe.netlify.app/
 - JWT Authentication
 
 
-🔗 Backend Repository: https://github.com/annapgsm/movie_api
-🌐 API Base URL: https://movie-api-o14j.onrender.com/
+- 🔗 Backend Repository: https://github.com/annapgsm/movie_api
+- 🌐 API Base URL: https://movie-api-o14j.onrender.com/
 
 ## Architecture Highlights
 

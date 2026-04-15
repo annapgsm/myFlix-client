@@ -1,11 +1,38 @@
 
 # DarkFrame (React Client)
 
-DarkFrame is a single-page React application that serves as the client for the MyFlix Movie API. It allows users to browse horror and thriller movies, explore detailed information, and manage a personalized list of favorite films.
+DarkFrame is a single-page movie application built with React that serves as the client for the MyFlix Movie API. It allows users to explore se horror and thriller movies, search in real time, and manage a personalized list of favorites.
 
-The application is built as a responsive SPA using React and Redux, with authentication handled via JWT and data fetched from a RESTful backend.
+The project focuses on creating a clean, product-like experience while demonstrating full-stack integration with a RESTful API, including authentication and persistent user data.
 
-## Screenshots
+## Live Demo
+The application is deployed on Netflify:
+
+https://darkframe.netlify.app/
+
+## Preview
+
+<img src="./screenshots/home.gif" width="700" />
+
+### Movie Details
+<img src="./screenshots/detail.png" width="700" />
+
+### Profile
+<img src="./screenshots/profile.png" width="700" />
+
+### Search
+<img src="./screenshots/search.gif" width="700" />
+
+
+
+## Key Features
+- Browse and search movies in real time
+- View detailed movie information (genre, director, description)
+- Register and log in as a user
+- Add and remove favorites
+- Persistent user data (saved in database)
+- User profile management
+- Responsive design
 
 ## Tech Stack  
 
@@ -27,15 +54,9 @@ The application is built as a responsive SPA using React and Redux, with authent
 - MongoDB
 - JWT Authentication
 
-## Key Features
-- Browse a list of all movies
-- Search movies by title
-- View detailed movie information (genre, director, description)
-- Register and log in as a user
-- Add and remove movies from favorites
-- View and update user profile
-- Delete user account
-- Responsive design for mobile and desktop
+
+🔗 Backend Repository: https://github.com/annapgsm/movie_api
+🌐 API Base URL: https://movie-api-o14j.onrender.com/
 
 ## Architecture Highlights
 
@@ -44,7 +65,8 @@ The application is built as a responsive SPA using React and Redux, with authent
 - Handles client-side routing with React Router
 - Integrates with a RESTful API for all data operations
 - Manages authentication state using JWT tokens stored on the client
-- Separates UI components and state logic for maintainability
+- Structured with reusable components and clear separation of concerns
+
 
 ## Set up instructions
 
@@ -73,10 +95,6 @@ REACT_APP_API_URL=https://movie-api-o14j.onrender.com/
    parcel src/index.html 
 
 ```
-## Deployment
-The application is deployed on Netflify:
-
-https://darkframe.netlify.app/
 
 ## Learnings
 - Built a complete SPA using React and managed global state with Redux

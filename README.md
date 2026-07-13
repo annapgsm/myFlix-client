@@ -39,7 +39,6 @@ https://darkframe.netlify.app/
 ### Frontend
 - React
 - React Router
-- Redux
 
 ### Styling
 - Bootstrap
@@ -55,13 +54,12 @@ https://darkframe.netlify.app/
 - JWT Authentication
 
 
-- 🔗 Backend Repository: https://github.com/annapgsm/movie_api
+- 🔗 Backend Repository: https://github.com/annapgsm/darkframe-api
 - 🌐 API Base URL: https://movie-api-o14j.onrender.com/
 
 ## Architecture Highlights
 
 - Built as a single-page application using React
-- Uses Redux for global state management (user data, movies, favorites)
 - Handles client-side routing with React Router
 - Integrates with a RESTful API for all data operations
 - Manages authentication state using JWT tokens stored on the client
@@ -77,8 +75,8 @@ https://darkframe.netlify.app/
 ### Steps
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/annapgsm/myFlix-client.git
-   cd myFlix-client
+   git clone https://github.com/annapgsm/darkframe-client.git
+   cd darkframe-client
 2. **Install dependencies** 
    ```bash
    npm install
@@ -97,7 +95,6 @@ REACT_APP_API_URL=https://movie-api-o14j.onrender.com/
 ```
 
 ## Learnings
-- Built a complete SPA using React and managed global state with Redux
 - Implemented client-side routing and protected views based on authentication
 - Integrated a frontend application with a RESTful backend API
 - Managed authentication state using JWT tokens

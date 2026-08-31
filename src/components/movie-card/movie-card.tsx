@@ -1,15 +1,35 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./movie-card.scss";
 
+type Movie = {
+  _id: string;
+  Title: string;
+  Genre?: {
+    Name?: string;
+  };
+  Director?: {
+    Name?: string;
+  };
+  ReleaseYear?: number;
+  ImagePath: string;
+  Featured?: boolean;
+};
+
+type MovieCardProps = {
+  movie: Movie;
+  onAddFavorite?: (movieId: string) => void;
+  favoriteMovies?: string[];
+};
+
+
 export const MovieCard = ({
   movie,
   onAddFavorite,
   favoriteMovies = [],
-}) => {
+}: MovieCardProps) => {
   const navigate = useNavigate();
   const isFavorite = favoriteMovies?.includes(movie._id);
 
@@ -17,7 +37,7 @@ export const MovieCard = ({
     navigate(`/movies/${encodeURIComponent(movie._id)}`);
   };
 
-  const handleFavoriteClick = (e) => {
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
     if (onAddFavorite) {
@@ -25,7 +45,7 @@ export const MovieCard = ({
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = ( e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       handleCardClick();
@@ -60,22 +80,4 @@ export const MovieCard = ({
       </Card.Body>
     </Card>
   );
-};
-
-MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    Title: PropTypes.string.isRequired,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string,
-    }),
-    Director: PropTypes.shape({
-      Name: PropTypes.string,
-    }),
-    ReleaseYear: PropTypes.number,
-    ImagePath: PropTypes.string.isRequired,
-    Featured: PropTypes.bool,
-  }).isRequired,
-  onAddFavorite: PropTypes.func,
-  favoriteMovies: PropTypes.array,
 };
